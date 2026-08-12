@@ -5,10 +5,13 @@ function Register() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
   // Prevent the page from refreshing when the form is submitted
   async function handleRegister(event) {
     event.preventDefault()
+    setLoading(true)
+    setMessage('')
 
     // Create a new user with Supabase Authentication
     const { error } = await supabase.auth.signUp({
@@ -21,6 +24,7 @@ function Register() {
     } else {
       setMessage('Check your email to confirm your account.')
     }
+    setLoading(false)
   }
 
   return (
@@ -54,9 +58,7 @@ function Register() {
 
         <br />
 
-        <button type="submit">
-          Register
-        </button>
+        <button type="submit">{loading ? 'Creating account...' : 'Register'}</button>
       </form>
 
       {message && <p>{message}</p>}

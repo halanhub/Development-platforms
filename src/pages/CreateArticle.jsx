@@ -6,15 +6,19 @@ function CreateArticle() {
   const [category, setCategory] = useState('')
   const [body, setBody] = useState('')
   const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
   async function handleSubmit(event) {
     event.preventDefault()
+    setLoading(true)
+    setMessage('')
 
     // Get the currently logged-in user
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
       setMessage('You must be logged in to create an article.')
+      setLoading(false)
       return
     }
 // Save the new article to the Supabase database
@@ -30,6 +34,7 @@ function CreateArticle() {
 
     if (error) {
       setMessage(error.message)
+      setLoading(false)
     } else {
       setMessage('Article created successfully.')
 
@@ -85,9 +90,7 @@ function CreateArticle() {
 
         <br />
 
-        <button type="submit">
-          Create Article
-        </button>
+        <button type="submit">{loading ? 'Creating article...' : 'Create Article'}</button>
       </form>
 
       {message && <p>{message}</p>}

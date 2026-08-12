@@ -5,9 +5,12 @@ function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
   async function handleLogin(event) {
     event.preventDefault()
+    setLoading(true)
+    setMessage('')
 
      // Login using the email and password entered in the form
     const { error } = await supabase.auth.signInWithPassword({
@@ -20,6 +23,7 @@ function Login() {
     } else {
       setMessage('You are logged in.')
     }
+    setLoading(false)
   }
 
   return (
@@ -53,7 +57,7 @@ function Login() {
 
         <br />
 
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
       </form>
 
       {message && <p>{message}</p>}
