@@ -6,23 +6,23 @@ function Articles() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    getArticles()
-  }, [])
-
+useEffect(() => {
   async function getArticles() {
     const { data, error: fetchError } = await supabase
       .from('articles')
       .select('*')
 
-      if (fetchError) {
-        setError('Could not load articles.')
-      } else {
-        setArticles(data)
-      }
-      
-      setLoading(false)
+    if (fetchError) {
+      setError('Could not load articles.')
+    } else {
+      setArticles(data)
+    }
+
+    setLoading(false)
   }
+
+  getArticles()
+}, [])
 
   if (loading) {
     return <p>Loading articles...</p>

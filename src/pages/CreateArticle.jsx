@@ -34,7 +34,7 @@ function CreateArticle() {
 
     if (error) {
       setMessage(error.message)
-      setLoading(false)
+      
     } else {
       setMessage('Article created successfully.')
 
@@ -42,6 +42,7 @@ function CreateArticle() {
       setCategory('')
       setBody('')
     }
+    setLoading(false)
   }
 
   return (
@@ -90,7 +91,7 @@ function CreateArticle() {
 
         <br />
 
-        <button type="submit">{loading ? 'Creating article...' : 'Create Article'}</button>
+        <button type="submit" disabled={loading}>{loading ? 'Creating article...' : 'Create Article'}</button>
       </form>
 
       {message && <p>{message}</p>}
